@@ -1,0 +1,146 @@
+<script is:inline src="./scorm-1.2.js"></script>
+
+<script is:inline>
+  (() => {
+    const stateNamespace = "payjustnow-on-onex:course-state:v1";
+    const storageKey = stateNamespace;
+    const sections = Array.from(document.querySelectorAll("main section[id], section[id]"));
+    const scorm = window.Scorm12;
+    let finished = false;
+    let saveTimer;
+    let progress = {
+      namespace: stateNamespace,
+      lastSectionId: "",
+      scrollY: 0,
+      completed: false,
+      answers: {},
+    };
+
+    const readFallback = () => {
+      try {
+        return JSON.parse(localStorage.getItem(storageKey) || "null");
+      } catch {
+        return null;
+      }
+    };
+
+    const readProgress = () => {
+      let saved = "";
+
+      if (scorm?.isConnected()) {
+        saved = scorm.getValue("cmi.suspend_data");
+      } else {
+        try {
+          saved = localStorage.getItem(storageKey) || "";
+        } catch {
+          saved = "";
+        }
+      }
+
+      try {
+        const parsed = saved ? JSON.parse(saved) : readFallback();
+        return parsed?.namespace === stateNamespace ? parsed : readFallback();
+      } catch {
+        return readFallback();
+      }
+    };
+
+    const captureAnswers = () => {
+      const answers = {};
+      document.querySelectorAll("[data-scenario-root]").forEach((root, rootIndex) => {
+        root.querySelectorAll("[data-scenario-panel]").forEach((panel, panelIndex) => {
+          const options = Array.from(panel.querySelectorAll("[data-scenario-option]"));
+          const selectedIndex = options.findIndex((option) => option.dataset.selected === "true");
+          if (selectedIndex >= 0) answers[`${rootIndex}:${panelIndex}`] = selectedIndex;
+        });
+      });
+      progress.answers = answers;
+    };
+
+    const persist = (commit = true) => {
+      captureAnswers();
+      progress.scrollY = Math.max(0, Math.round(window.scrollY));
+      const serialized = JSON.stringify(progress);
+
+      try {
+        localStorage.setItem(storageKey, serialized);
+      } catch {
+        // Local storage is optional; LMS persistence remains available.
+      }
+
+      if (!scorm?.isConnected()) return;
+      scorm.setValue("cmi.suspend_data", serialized);
+      scorm.setValue("cmi.core.lesson_location", progress.lastSectionId || "course-placeholder");
+      if (commit) scorm.commit();
+    };
+
+    const schedulePersist = () => {
+      window.clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(() => persist(true), 350);
+    };
+
+    const restoreAnswers = () => {
+      const answers = progress.answers || {};
+      document.querySelectorAll("[data-scenario-root]").forEach((root, rootIndex) => {
+        root.querySelectorAll("[data-scenario-panel]").forEach((panel, panelIndex) => {
+          const selectedIndex = answers[`${rootIndex}:${panelIndex}`];
+          const option = panel.querySelectorAll("[data-scenario-option]")[selectedIndex];
+          if (option) {
+            option.click();
+          }
+        });
+      });
+    };
+
+    const initialize = () => {
+      const initialized = scorm?.initialize() === true;
+
+      if (initialized && scorm?.isConnected()) {
+        scorm.setValue("cmi.core.lesson_status", "completed");
+        scorm.commit();
+      }
+
+      progress = { ...progress, ...(readProgress() || {}) };
+      progress.namespace = stateNamespace;
+      progress.completed = true;
+      restoreAnswers();
+
+      const savedSection = progress.lastSectionId && document.getElementById(progress.lastSectionId);
+      if (savedSection && progress.lastSectionId !== "course-placeholder") {
+        requestAnimationFrame(() => savedSection.scrollIntoView({ block: "start" }));
+      }
+
+      sections.forEach((section) => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (!entries.some((entry) => entry.isIntersecting)) return;
+            progress.lastSectionId = section.id;
+            schedulePersist();
+          },
+          { rootMargin: "-35% 0px -50% 0px", threshold: 0 },
+        );
+        observer.observe(section);
+      });
+
+      document.addEventListener("click", (event) => {
+        if (event.target.closest("[data-scenario-option], [data-nav-link]")) schedulePersist();
+      });
+    };
+
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      window.clearTimeout(saveTimer);
+      persist(true);
+      scorm?.finish();
+    };
+
+    window.addEventListener("pagehide", finish);
+    window.addEventListener("beforeunload", finish);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden" && !finished) persist(true);
+    });
+
+    initialize();
+  })();
+</script>

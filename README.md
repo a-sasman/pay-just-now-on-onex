@@ -1,43 +1,63 @@
-# Astro Starter Kit: Minimal
+# PayJustNow on oneX
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Astro micro-course implementing the supplied PayJustNow on oneX storyboard and
+visual-board direction.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Implemented
 
-## 🚀 Project Structure
+- Responsive black, lime, white and light-grey PayJustNow course composition.
+- Welcome and learning outcomes.
+- Sale-journey introduction with the supplied checkout visual and accessible zoom.
+- Four selectable sale-rule cards.
+- Four submitted knowledge checks with four options and approved feedback.
+- Exclusions content and accessible drag/button product sort.
+- Refund decision paths and three connected refund checks.
+- Eight expandable customer questions.
+- Branded, downloadable PayJustNow Customer Questions Guide PDF.
+- Conclusion links, static People Connect footer, back-to-top behavior and
+  reduced-motion handling.
+- SCORM 1.2 immediate-completion behavior with standalone-browser fallback.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Known source limitation
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+The supplied files contain one PayJustNow checkout/payment-plan screenshot, not
+the complete ordered oneX POS screenshot sequence requested by the storyboard.
+The course does not fabricate the missing interface or process steps. The
+following screenshots are still required to complete the Sale Journey:
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+1. Customer loaded in oneX.
+2. Other tenders applied before PayJustNow, where relevant.
+3. PayJustNow selected for the remaining balance.
+4. QR code displayed at POS and scanned by the customer.
+5. Customer approval/confirmation in the app.
+6. Final successful transaction confirmation in oneX.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+The approved course is packaged with this limitation documented. The missing
+screenshots do not block the current Oracle / People Connect SCORM package.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Commands
 
-## 🧞 Commands
+| Command | Action |
+| :-- | :-- |
+| `npm run dev` | Start the local Astro development server. |
+| `npm run build` | Build the production output in `dist/`. |
+| `npm run preview` | Preview the production build. |
+| `npm run pdf` | Generate the downloadable customer-questions guide. |
+| `npm run verify:scorm` | Run mock SCORM lifecycle and packaged browser checks against `dist/`. |
 
-All commands are run from the root of the project, from a terminal:
+## SCORM identity
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- Standard: SCORM 1.2
+- Course identifier: `com.payjustnow.onex.scorm12`
+- Browser and manifest titles: `Content`
+- Package filename: `payjustnow-on-onex-scorm-1.2.zip`
+- Browser-storage namespace: `payjustnow-on-onex:course-state:v1`
 
-## 👀 Want to learn more?
+The source manifest is `public/imsmanifest.xml`. Regenerate the guide when its
+content changes, run the production build and verification, then package the
+contents of `dist/` at the ZIP root.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## References
+
+Storyboard, visual board and supplied source images are preserved under
+`reference/`. Runtime copies live under `public/images/payjustnow/`.

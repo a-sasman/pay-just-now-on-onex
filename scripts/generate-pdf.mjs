@@ -1,9 +1,15 @@
+import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
 
-const courseUrl = process.env.PDF_URL ?? "http://127.0.0.1:4321/course-pdf";
-const outputPath = path.resolve(process.cwd(), "course.pdf");
+const courseUrl = process.env.PDF_URL ?? "http://127.0.0.1:4321/customer-questions-guide";
+const outputPath = path.resolve(
+  process.cwd(),
+  "public/downloads/payjustnow-customer-questions-guide.pdf",
+);
+
+await fs.mkdir(path.dirname(outputPath), { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
 

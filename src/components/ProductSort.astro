@@ -1,0 +1,108 @@
+---
+interface SortItem {
+  id: string;
+  label: string;
+  group: "allowed" | "excluded";
+}
+
+interface Props {
+  items: SortItem[];
+}
+
+const { items } = Astro.props as Props;
+---
+
+<div class="product-sort reveal" data-product-sort>
+  <div class="sort-instructions">
+    <h3>Sort the products</h3>
+    <p>Move each item to Allowed or Excluded. Drag with a pointer, or use the buttons for keyboard and touch access.</p>
+  </div>
+
+  <div class="sort-pool" data-sort-pool aria-label="Products to sort">
+    {items.map((item) => (
+      <article
+        class="sort-item"
+        draggable="true"
+        data-sort-item
+        data-item-id={item.id}
+        data-expected-group={item.group}
+      >
+        <strong>{item.label}</strong>
+        <div class="sort-actions">
+          <button type="button" data-move-to="allowed">Allowed</button>
+          <button type="button" data-move-to="excluded">Excluded</button>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="sort-groups">
+    <section class="sort-dropzone" data-dropzone="allowed" aria-label="Allowed products">
+      <h3>Allowed</h3>
+      <div data-sort-list="allowed"></div>
+    </section>
+    <section class="sort-dropzone" data-dropzone="excluded" aria-label="Excluded products">
+      <h3>Excluded</h3>
+      <div data-sort-list="excluded"></div>
+    </section>
+  </div>
+
+  <p class="sort-feedback" data-sort-feedback aria-live="polite">
+    Sort all six items to check your answer.
+  </p>
+</div>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-product-sort]").forEach((root) => {
+      if (root.dataset.initialized === "true") return;
+      root.dataset.initialized = "true";
+      let draggedItem = null;
+      const items = Array.from(root.querySelectorAll("[data-sort-item]"));
+      const feedback = root.querySelector("[data-sort-feedback]");
+
+      const updateFeedback = () => {
+        const placed = items.filter((item) => item.dataset.currentGroup).length;
+        if (placed < items.length) {
+          feedback.textContent = `Sorted ${placed} of ${items.length} items.`;
+          feedback.dataset.status = "progress";
+          return;
+        }
+        const correct = items.every(
+          (item) => item.dataset.currentGroup === item.dataset.expectedGroup,
+        );
+        feedback.textContent = correct
+          ? "Correct. Ordinary merchandise is allowed; gift cards, airtime, data, 1Voucher and other Value-Added Services are excluded."
+          : "Not quite. Review the exclusions and move any item that is in the wrong group.";
+        feedback.dataset.status = correct ? "correct" : "incorrect";
+      };
+
+      const moveItem = (item, group) => {
+        const list = root.querySelector(`[data-sort-list="${group}"]`);
+        if (!list) return;
+        item.dataset.currentGroup = group;
+        list.append(item);
+        updateFeedback();
+      };
+
+      items.forEach((item) => {
+        item.addEventListener("dragstart", (event) => {
+          draggedItem = item;
+          event.dataTransfer?.setData("text/plain", item.dataset.itemId || "");
+        });
+        item.querySelectorAll("[data-move-to]").forEach((button) => {
+          button.addEventListener("click", () => moveItem(item, button.dataset.moveTo));
+        });
+      });
+
+      root.querySelectorAll("[data-dropzone]").forEach((zone) => {
+        zone.addEventListener("dragover", (event) => event.preventDefault());
+        zone.addEventListener("drop", (event) => {
+          event.preventDefault();
+          if (draggedItem) moveItem(draggedItem, zone.dataset.dropzone);
+          draggedItem = null;
+        });
+      });
+    });
+  })();
+</script>

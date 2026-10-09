@@ -1,0 +1,137 @@
+---
+import { courseData } from "../data/payjustnow-course";
+import CourseLayout from "../layouts/CourseLayout.astro";
+---
+
+<CourseLayout title="Content" pdfMode={true} showPageDecor={false} showBackToTop={false}>
+  <main class="guide-page">
+    <header class="guide-header">
+      <img src="./images/payjustnow/payjustnow-logo.png" alt="PayJustNow" />
+      <p>Point-of-need support</p>
+      <h1>PayJustNow Customer Questions Guide</h1>
+      <p>Use this guide when a customer needs help with a PayJustNow question.</p>
+    </header>
+
+    <section class="guide-list" aria-label="Customer questions and answers">
+      {courseData.customerQuestions.items.map((item, index) => (
+        <article class="guide-item">
+          <div class="guide-number">{String(index + 1).padStart(2, "0")}</div>
+          <div>
+            <h2>{item.question}</h2>
+            <p>{item.answer}</p>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <footer class="guide-footer">
+      Return to People Connect to continue
+    </footer>
+  </main>
+
+  <style>
+    .guide-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 36px;
+      color: #111;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .guide-header {
+      padding: 34px;
+      border-radius: 28px;
+      background: #000;
+      color: #fff;
+    }
+
+    .guide-header img {
+      width: 170px;
+      height: auto;
+      margin-bottom: 28px;
+    }
+
+    .guide-header h1 {
+      max-width: 680px;
+      margin: 8px 0 16px;
+      font-size: 38px;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    .guide-header p {
+      margin: 0;
+      color: #ceff3d;
+      font-weight: 700;
+    }
+
+    .guide-header p:last-child {
+      max-width: 650px;
+      color: #fff;
+      font-weight: 400;
+    }
+
+    .guide-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .guide-item {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 18px;
+      padding: 22px;
+      border: 1px solid #d6d6d6;
+      border-radius: 20px;
+      background: #f2f2f2;
+      break-inside: avoid;
+    }
+
+    .guide-number {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border-radius: 50%;
+      background: #ceff3d;
+      font-weight: 900;
+    }
+
+    .guide-item h2 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      line-height: 1.25;
+    }
+
+    .guide-item p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .guide-footer {
+      margin-top: 24px;
+      padding: 16px 12px 0;
+      border-top: 4px solid #ceff3d;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      font-weight: 700;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    @media print {
+      .guide-page {
+        max-width: none;
+        padding: 0;
+      }
+
+      .guide-header,
+      .guide-item,
+      .guide-number {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</CourseLayout>

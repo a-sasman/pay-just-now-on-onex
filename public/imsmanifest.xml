@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest
+  identifier="com.payjustnow.onex.scorm12"
+  version="1.0"
+  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+  xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                      http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="payjustnow-on-onex-organization">
+    <organization identifier="payjustnow-on-onex-organization">
+      <title>Content</title>
+      <item identifier="payjustnow-on-onex-item" identifierref="payjustnow-on-onex-resource">
+        <title>Content</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource
+      identifier="payjustnow-on-onex-resource"
+      type="webcontent"
+      adlcp:scormtype="sco"
+      href="index.html">
+      <file href="index.html" />
+      <file href="customer-questions-guide.html" />
+      <file href="scorm-1.2.js" />
+      <file href="_astro/CourseLayout.css" />
+      <file href="favicon.ico" />
+      <file href="favicon.svg" />
+      <file href="images/payjustnow/payjustnow-logo.png" />
+      <file href="images/payjustnow/payjustnow-hero.png" />
+      <file href="images/payjustnow/payjustnow-wrap-up.png" />
+      <file href="images/payjustnow/onex-hero.png" />
+      <file href="images/payjustnow/onex-payment-plan.png" />
+      <file href="downloads/payjustnow-customer-questions-guide.pdf" />
+    </resource>
+  </resources>
+</manifest>

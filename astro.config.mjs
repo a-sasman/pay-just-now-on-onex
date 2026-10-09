@@ -9,8 +9,19 @@ const astroPrerenderEntrypoint = fileURLToPath(
 
 // https://astro.build/config
 export default defineConfig({
+  build: {
+    assetsPrefix: '.',
+    format: 'file',
+  },
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          assetFileNames: '_astro/[name][extname]',
+        },
+      },
+    },
     resolve: {
       alias: {
         'astro/entrypoints/prerender': astroPrerenderEntrypoint,

@@ -1,13 +1,16 @@
 ---
 import CourseNav from "../components/CourseNav.astro";
-import CourseLayout from "../layouts/CourseLayout.astro";
-import HeroSection from "../components/HeroSection.astro";
-import ScenarioCard from "../components/ScenarioCard.astro";
-import VideoCard from "../components/VideoCard.astro";
+import KnowledgeCheck from "../components/KnowledgeCheck.astro";
+import ProductSort from "../components/ProductSort.astro";
+import ScormRuntime from "../components/ScormRuntime.astro";
+import ZoomImage from "../components/ZoomImage.astro";
 import { courseData } from "../data/payjustnow-course";
+import CourseLayout from "../layouts/CourseLayout.astro";
+
+const checks = courseData.knowledgeChecks;
 ---
 
-<CourseLayout title={courseData.meta.title}>
+<CourseLayout title="Content">
   <div id="top"></div>
 
   <CourseNav
@@ -16,361 +19,233 @@ import { courseData } from "../data/payjustnow-course";
     sections={courseData.navSections}
   />
 
-  <HeroSection
-    id="welcome"
-    title={courseData.welcome.title}
-    subtitle={courseData.welcome.subtitle}
-    points={courseData.welcome.points}
-    logoSrc={courseData.welcome.heroImageSrc}
-    logoAlt={courseData.welcome.heroImageAlt}
-  />
-
-  <section class="section scroll-mt-28" id={courseData.basics.id}>
-    <div class="container">
-      <div class="basics-shell reveal">
-        <div class="basics-grid">
-          <div class="basics-copy">
-            {courseData.basics.eyebrow && (
-              <span class="editorial-kicker">{courseData.basics.eyebrow}</span>
-            )}
-            <h2 class="section-title basics-title">{courseData.basics.title}</h2>
-            <p class="section-copy basics-intro">{courseData.basics.intro}</p>
-            <div class="basics-divider" aria-hidden="true"></div>
-
-            <aside class="basics-tip" aria-label="Tip">
-              <div class="basics-tip-icon" aria-hidden="true">
-                <svg
-                  viewBox="0 0 24 24"
-                  class="h-6 w-6"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M9 18h6" />
-                  <path d="M10 22h4" />
-                  <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-                </svg>
-              </div>
-
-              <p class="basics-tip-text">
-                <em>{courseData.basics.tip}</em>
-              </p>
-            </aside>
-
-            <div class="payment-plans-intro basics-payment-intro reveal">
-              <p class="payment-plans-intro-copy">
-                {courseData.paymentPlans.intro.replace(" Let's break that down.", "")}
-                <strong> Let's break that down.</strong>
-              </p>
-            </div>
-
-            <div class="basics-question-block">
-              <ScenarioCard
-                id={`${courseData.basics.id}-payment-check`}
-                embedded={true}
-                showHeader={false}
-                showProgress={false}
-                idleFeedbackMessage=""
-                question={courseData.basics.question.question}
-                options={courseData.basics.question.options}
-                correctIndex={courseData.basics.question.correctIndex}
-                optionFeedback={courseData.basics.question.optionFeedback}
-              />
-            </div>
-
-            <div class="payment-plans-intro basics-payment-transition reveal">
-              <p class="payment-plans-intro-copy basics-payment-transition-copy">
-                Now let's look at how those payments actually get split.
-              </p>
-            </div>
+  <main>
+    <section class="onex-section welcome-section scroll-mt-28" id="welcome">
+      <div class="container">
+        <div class="welcome-panel reveal">
+          <div class="welcome-copy">
+            <p class="section-kicker section-kicker-lime">Welcome</p>
+            <h1>{courseData.welcome.title}</h1>
+            <p>{courseData.welcome.intro}</p>
           </div>
+          <img
+            class="welcome-image"
+            src={courseData.welcome.imageSrc}
+            alt={courseData.welcome.imageAlt}
+          />
+        </div>
+
+        <div class="outcomes-panel reveal">
+          <div>
+            <p class="section-kicker">What you will learn</p>
+            <h2>{courseData.welcome.outcomesIntro}</h2>
+          </div>
+          <ul class="outcomes-list">
+            {courseData.welcome.outcomes.map((outcome) => (
+              <li><span aria-hidden="true">✓</span>{outcome}</li>
+            ))}
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section scroll-mt-28" id={courseData.paymentPlans.id}>
-    <div class="container">
-      <div class="payment-plans-shell">
-        <div class="payment-plans-header reveal">
-          <h2 class="section-title payment-plans-title">{courseData.paymentPlans.title}</h2>
+    <section class="onex-section sale-journey-section scroll-mt-28" id="sale-journey">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <h2>{courseData.saleJourney.title}</h2>
+          {courseData.saleJourney.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
         </div>
 
-        <div class="payment-plans-copy reveal delay-1">
-          <p class="payment-plans-copy-paragraph">{courseData.paymentPlans.cards[0].body.join(" ")}</p>
-          <span class="payment-plans-copy-accent" aria-hidden="true"></span>
-        </div>
-
-        <div class="how-it-works-media payment-plans-media reveal delay-3">
-          <p class="how-it-works-video-intro">Watch the video to learn more.</p>
-          <div class="how-it-works-laptop">
-            <VideoCard
-              title={courseData.paymentPlans.video.title}
-              embedUrl={courseData.paymentPlans.video.embedUrl}
-              frame="laptop"
-              showHeader={false}
-            />
+        <div class="journey-shell reveal">
+          <div class="journey-copy">
+            <h3>PayJustNow checkout</h3>
+            <p>
+              Open the supplied screen for a larger view. The remaining oneX POS journey screens
+              are still required to show the complete ordered process without fabricating steps.
+            </p>
           </div>
+          <ZoomImage
+            id="payment-plan-zoom"
+            src={courseData.saleJourney.screenshotSrc}
+            alt={courseData.saleJourney.screenshotAlt}
+            caption=""
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="onex-section rules-section scroll-mt-28" id="sale-rules">
+      <div class="container">
+        <div class="section-heading centered dark-heading reveal">
+          <h2>{courseData.rules.title}</h2>
+          <p>{courseData.rules.intro}</p>
         </div>
 
-        <div class="payment-plans-copy reveal delay-4">
-          {courseData.paymentPlans.cards[1].body.map((paragraph) => (
-            <p class="payment-plans-copy-paragraph">{paragraph}</p>
+        <div class="connected-cards four-rule-cards" data-rule-cards>
+          {courseData.rules.items.map((rule, index) => (
+            <button type="button" class="connected-card rule-card reveal" aria-pressed="false">
+              <span class="card-number">{index + 1}</span>
+              <span>{rule}</span>
+            </button>
           ))}
         </div>
 
-        <aside class="payment-plans-tip basics-tip reveal delay-5" aria-label="Tip">
-          <div class="basics-tip-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              class="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18h6" />
-              <path d="M10 22h4" />
-              <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-            </svg>
-          </div>
-
-          <p class="basics-tip-text payment-plans-tip-text">
-            <span class="payment-plans-tip-label">TIP:</span>
-            <em>
-              Mention PayStretch whenever a customer is buying a big basket item, such as furniture
-              or electronics, and always point out the interest rate before the customer confirms.
-            </em>
-            {" "}This will help build the trust of the customer.
-          </p>
-        </aside>
-      </div>
-
-      <div class="payment-example-flow reveal delay-6">
-        <article class="card payment-example-card">
-          <h3 class="payment-example-title">{courseData.paymentPlans.exampleTitle}</h3>
-          <p class="payment-example-intro">{courseData.paymentPlans.exampleBody[0]}</p>
-
-          <div class="payment-plans-example-timeline">
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">Purchase Date</span>
-              <strong class="payment-plans-example-date">1 March</strong>
-            </div>
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">First Instalment</span>
-              <strong class="payment-plans-example-date">1 March</strong>
-            </div>
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">Second Instalment</span>
-              <strong class="payment-plans-example-date">1 April</strong>
-            </div>
-            <div class="payment-plans-example-step">
-              <span class="payment-plans-example-label">Final Instalment</span>
-              <strong class="payment-plans-example-date">1 May</strong>
-            </div>
-          </div>
-
-          <div class="payment-example-copy">
-            <p>{courseData.paymentPlans.exampleBody[1]}</p>
-          </div>
-        </article>
-      </div>
-
-      <div class="interactive-section-shell reveal delay-7">
-        <div class="interactive-section-header">
-          <h3 class="section-title interactive-section-title">Now try it yourself</h3>
-        </div>
-
-        <div class="interactive-section-question">
-        <ScenarioCard
-          id={courseData.paymentPlans.id}
-          embedded={true}
-          showHeader={false}
-          showProgress={false}
-          idleFeedbackMessage=""
-          question={courseData.paymentPlans.question.question}
-          options={courseData.paymentPlans.question.options}
-          correctIndex={courseData.paymentPlans.question.correctIndex}
-          optionFeedback={courseData.paymentPlans.question.optionFeedback}
+        <KnowledgeCheck
+          id={checks[0].id}
+          number={1}
+          total={checks.length}
+          question={checks[0].question}
+          options={checks[0].options}
+          correctIndex={checks[0].correctIndex}
+          feedback={checks[0].feedback}
         />
-        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section scroll-mt-28" id={courseData.howItWorks.id}>
-    <div class="container">
-      <div class="how-it-works-header reveal">
-        <h2 class="section-title how-it-works-title">{courseData.howItWorks.title}</h2>
-        <p class="section-copy how-it-works-requirement">{courseData.howItWorks.requirement}</p>
-      </div>
-
-      <div class="how-it-works-media reveal delay-1">
-        <p class="how-it-works-video-intro">{courseData.howItWorks.videoIntro}</p>
-        <div class="how-it-works-laptop">
-          <VideoCard
-            title={courseData.howItWorks.video.title}
-            embedUrl={courseData.howItWorks.video.embedUrl}
-            frame="laptop"
-            showHeader={false}
-          />
-        </div>
-      </div>
-
-      <div class="how-it-works-process-grid reveal delay-2">
-        {courseData.howItWorks.processCards.map((card) => (
-          <article class="card how-it-works-process-card">
-            <div class="how-it-works-process-top">
-              <span class="how-it-works-process-accent" aria-hidden="true"></span>
-              <h3 class="how-it-works-process-title">{card.title}</h3>
-            </div>
-            <p class="how-it-works-process-copy">{card.body}</p>
-          </article>
-        ))}
-      </div>
-
-      <div class="how-it-works-tip-wrap reveal delay-3">
-        <aside class="how-it-works-tip" aria-label="Tip">
-          <div class="how-it-works-tip-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              class="h-6 w-6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M9 18h6" />
-              <path d="M10 22h4" />
-              <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-            </svg>
+    <section class="onex-section exclusions-section">
+      <div class="container">
+        <div class="exclusions-panel reveal">
+          <div class="exclusions-copy">
+            <h2>{courseData.exclusions.title}</h2>
+            {courseData.exclusions.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
           </div>
-
-          <p class="how-it-works-tip-text">
-            <em>{courseData.howItWorks.tip}</em>
-          </p>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section scroll-mt-28" id={courseData.keyConsiderations.id}>
-    <div class="container">
-      <div class="key-considerations-shell">
-        <div class="key-considerations-header reveal">
-          <h2 class="section-title key-considerations-title">{courseData.keyConsiderations.title}</h2>
-        </div>
-
-        <div class="key-considerations-grid reveal delay-1">
-          {courseData.keyConsiderations.statements.flatMap((statement, index) => [
-            index > 0 && (
-              <div class="key-considerations-arrow" aria-hidden="true">
-                <svg viewBox="0 0 100 64" class="key-considerations-arrow-icon">
-                  <path fill="currentColor" d="M4 22h56V4l36 28-36 28V42H4z"></path>
-                </svg>
-              </div>
-            ),
-            <article class="card key-considerations-card">
-              <p class="key-considerations-copy">{statement}</p>
-            </article>,
-          ])}
-        </div>
-
-        <div class="key-considerations-tip-wrap reveal delay-2">
-          <aside class="key-considerations-tip" aria-label="Tip">
-            <div class="key-considerations-tip-icon" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                class="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M9 18h6" />
-                <path d="M10 22h4" />
-                <path d="M12 2a7 7 0 0 0-4 12.75c.6.42 1 1.09 1 1.82V18h6v-1.43c0-.73.4-1.4 1-1.82A7 7 0 0 0 12 2Z" />
-              </svg>
-            </div>
-
-            <p class="key-considerations-tip-text">
-              <em>{courseData.keyConsiderations.tip}</em>
-            </p>
-          </aside>
-        </div>
-
-        <div class="key-considerations-question reveal delay-3">
-          <ScenarioCard
-            id={`${courseData.keyConsiderations.id}-question`}
-            embedded={true}
-            showHeader={false}
-            showProgress={false}
-            idleFeedbackMessage=""
-            question={courseData.keyConsiderations.question.question}
-            options={courseData.keyConsiderations.question.options}
-            correctIndex={courseData.keyConsiderations.question.correctIndex}
-            optionFeedback={courseData.keyConsiderations.question.optionFeedback}
+          <img
+            src={courseData.saleJourney.screenshotSrc}
+            alt={courseData.saleJourney.screenshotAlt}
+            class="exclusions-image"
+            loading="lazy"
           />
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="section scroll-mt-28" id={courseData.wrapUp.id}>
-    <div class="container">
-      <div class="wrap-up-shell card reveal">
-        <div class="wrap-up-grid">
-          <div class="wrap-up-copy">
-            <h2 class="section-title wrap-up-title">{courseData.wrapUp.title}</h2>
-            <p class="wrap-up-supporting">{courseData.wrapUp.intro}</p>
-            {courseData.wrapUp.body.map((paragraph) => (
-              <p class="wrap-up-body">{paragraph}</p>
+        <ProductSort items={courseData.exclusions.sortItems} />
+
+        <KnowledgeCheck
+          id={checks[1].id}
+          number={2}
+          total={checks.length}
+          question={checks[1].question}
+          options={checks[1].options}
+          correctIndex={checks[1].correctIndex}
+          feedback={checks[1].feedback}
+        />
+      </div>
+    </section>
+
+    <section class="onex-section refunds-section scroll-mt-28" id="refunds">
+      <div class="container">
+        <div class="section-heading refund-decision-heading centered reveal">
+          <h2>{courseData.refundDecision.title}</h2>
+          <p class="decision-question">{courseData.refundDecision.question}</p>
+          <p class="decision-reminder">{courseData.refundDecision.reminder}</p>
+        </div>
+
+        <div class="refund-paths reveal">
+          {courseData.refundDecision.paths.map((path) => (
+            <article class="refund-path-card">
+              <strong>{path.label}</strong>
+              <p>{path.body}</p>
+            </article>
+          ))}
+        </div>
+
+        <div class="refund-checks-panel reveal">
+          <div class="section-heading centered">
+            <h2>{courseData.refundChecks.title}</h2>
+            <p>{courseData.refundChecks.intro}</p>
+          </div>
+          <div class="connected-cards three-check-cards">
+            {courseData.refundChecks.items.map((check, index) => (
+              <article class="connected-card refund-check-card">
+                <span class="card-number">{index + 1}</span>
+                <p>{check}</p>
+              </article>
             ))}
           </div>
+        </div>
 
-          <div class="wrap-up-media">
-            <img
-              class="wrap-up-image"
-              src={courseData.wrapUp.imageSrc}
-              alt={courseData.wrapUp.imageAlt}
-              loading="lazy"
-            />
+        <KnowledgeCheck
+          id={checks[2].id}
+          number={3}
+          total={checks.length}
+          question={checks[2].question}
+          options={checks[2].options}
+          correctIndex={checks[2].correctIndex}
+          feedback={checks[2].feedback}
+        />
+
+        <KnowledgeCheck
+          id={checks[3].id}
+          number={4}
+          total={checks.length}
+          question={checks[3].question}
+          options={checks[3].options}
+          correctIndex={checks[3].correctIndex}
+          feedback={checks[3].feedback}
+        />
+      </div>
+    </section>
+
+    <section class="onex-section questions-section scroll-mt-28" id="customer-questions">
+      <div class="container">
+        <div class="section-heading centered dark-heading reveal">
+          <h2>{courseData.customerQuestions.title}</h2>
+          <p>{courseData.customerQuestions.intro}</p>
+          <p><strong>{courseData.customerQuestions.instruction}</strong></p>
+        </div>
+
+        <div class="faq-list reveal">
+          {courseData.customerQuestions.items.map((item, index) => (
+            <details class="faq-item">
+              <summary>
+                <span class="faq-number">{String(index + 1).padStart(2, "0")}</span>
+                <span>{item.question}</span>
+              </summary>
+              <div class="faq-answer"><p>{item.answer}</p></div>
+            </details>
+          ))}
+        </div>
+
+        <div class="centered-actions reveal">
+          <a class="primary-button" href={courseData.guide.href} download>
+            {courseData.guide.label}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="onex-section complete-section scroll-mt-28" id="complete">
+      <div class="container">
+        <div class="complete-panel reveal">
+          <img
+            src="./images/payjustnow/payjustnow-wrap-up.png"
+            alt="PayJustNow wrap-up checklist among pink shapes"
+            loading="lazy"
+          />
+          <div>
+            <h2>{courseData.complete.title}</h2>
+            {courseData.complete.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="course-footer" aria-label="Course footer">
     <div class="container">
       <div class="course-footer-shell reveal">
-        <span class="course-footer-spacer" aria-hidden="true"></span>
-
-        <a
-          class="course-footer-link"
-          href={courseData.footer.peopleConnectUrl}
-          aria-label={courseData.footer.buttonLabel}
-        >
-          <span>{courseData.footer.buttonLabel}</span>
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            class="course-footer-link-icon"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M9 6l6 6-6 6" />
-          </svg>
-        </a>
+        <p class="course-footer-text">Return to People Connect to continue</p>
       </div>
     </div>
   </footer>
+
+  <ScormRuntime />
 </CourseLayout>
+
+<script is:inline>
+  document.querySelectorAll("[data-rule-cards] .rule-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const selected = card.getAttribute("aria-pressed") === "true";
+      card.setAttribute("aria-pressed", String(!selected));
+    });
+  });
+</script>

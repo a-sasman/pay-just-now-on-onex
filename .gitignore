@@ -3,6 +3,13 @@ dist/
 # generated types
 .astro/
 
+# generated course artifacts
+course.pdf
+scorm-package/
+*.zip
+.tmp-screens*/
+tmp/
+
 # dependencies
 node_modules/
 

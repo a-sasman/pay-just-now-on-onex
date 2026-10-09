@@ -1,0 +1,40 @@
+---
+interface Props {
+  id: string;
+  src: string;
+  alt: string;
+  caption: string;
+}
+
+const { id, src, alt, caption } = Astro.props as Props;
+---
+
+<figure class="zoom-figure" data-zoom-root>
+  <button type="button" class="zoom-trigger" data-zoom-open aria-haspopup="dialog">
+    <img src={src} alt={alt} loading="lazy" />
+    <span>Open larger view</span>
+  </button>
+  {caption && <figcaption>{caption}</figcaption>}
+  <dialog class="zoom-dialog" id={id} data-zoom-dialog aria-label={caption || alt}>
+    <button type="button" class="zoom-close" data-zoom-close aria-label="Close larger view">×</button>
+    <img src={src} alt={alt} />
+    {caption && <p>{caption}</p>}
+  </dialog>
+</figure>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-zoom-root]").forEach((root) => {
+      if (root.dataset.initialized === "true") return;
+      root.dataset.initialized = "true";
+      const dialog = root.querySelector("[data-zoom-dialog]");
+      const open = root.querySelector("[data-zoom-open]");
+      const close = root.querySelector("[data-zoom-close]");
+      open?.addEventListener("click", () => dialog?.showModal());
+      close?.addEventListener("click", () => dialog?.close());
+      dialog?.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
+  })();
+</script>

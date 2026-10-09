@@ -3,197 +3,223 @@ export type NavSection = {
   label: string;
 };
 
-export type SectionCard = {
-  title: string;
-  body: string[];
-};
-
-export type VideoResource = {
-  title: string;
-  embedUrl: string;
-};
-
-export type ProcessCard = {
-  title: string;
-  body: string;
-};
-
 export type ScenarioQuestion = {
+  id: string;
   question: string;
   options: string[];
   correctIndex: number;
-  feedback?: string;
-  optionFeedback?: string[];
+  feedback: string;
+};
+
+export type CustomerQuestion = {
+  question: string;
+  answer: string;
 };
 
 export const courseData = {
   meta: {
-    title: "PayJustNow Quick Course",
+    title: "Content",
     brand: "PayJustNow",
-    logoSrc: "/images/payjustnow/payjustnow-logo.png",
+    courseId: "payjustnow-on-onex",
+    logoSrc: "./images/payjustnow/payjustnow-logo.png",
     logoAlt: "PayJustNow logo",
   },
   navSections: [
     { id: "welcome", label: "Welcome" },
-    { id: "payjustnow-basics", label: "PayJustNow Basics" },
-    { id: "payment-plans", label: "Payment Plans" },
-    { id: "how-it-works", label: "How It Works" },
-    { id: "key-considerations", label: "Key Considerations" },
-    { id: "wrap-up", label: "Wrap Up" },
+    { id: "sale-journey", label: "Sale Journey" },
+    { id: "sale-rules", label: "Sale Rules" },
+    { id: "refunds", label: "Refunds" },
+    { id: "customer-questions", label: "Customer Questions" },
+    { id: "complete", label: "Complete" },
   ] as NavSection[],
   welcome: {
-    title: "Welcome",
-    subtitle: "By the end of this course, you will be able to:",
-    heroImageSrc: "/images/payjustnow/payjustnow-hero.png",
-    heroImageAlt: "PayJustNow app shown on a phone between pink abstract forms.",
-    points: [
-      "Identify what PayJustNow is and when it is the right option for a customer.",
-      "Work out the correct instalment amounts and dates, and recommend the right plan, either the three month plan or PayStretch, for a given purchase.",
-      "Apply the correct sequence of steps to complete a PayJustNow purchase.",
-      "Respond correctly to customer questions and concerns.",
+    title: "PayJustNow on oneX",
+    intro:
+      "You already know how PayJustNow works and how to explain the payment options to a customer. Now let’s look at what happens at the Point of Sale, where the order of each step matters.",
+    outcomesIntro: "By the end of this course, you will be able to:",
+    outcomes: [
+      "Apply the payment rules",
+      "Check for excluded products",
+      "Choose the right refund action",
+      "Respond when a refund does not process",
+    ],
+    imageSrc: "./images/payjustnow/onex-hero.png",
+    imageAlt: "oneX shopping app displayed on a phone among pink abstract shapes",
+  },
+  saleJourney: {
+    title: "The Sale Journey",
+    paragraphs: [
+      "A customer is ready to pay with PayJustNow. Follow the visual journey from loading the customer and selecting PayJustNow to the customer scanning the QR code, confirming the payment and completing the transaction.",
+      "As you go, look out for the order of the tenders, the customer approval and the final confirmation.",
+    ],
+    screenshotSrc: "./images/payjustnow/onex-payment-plan.png",
+    screenshotAlt:
+      "PayJustNow checkout screen showing a R4,000 purchase and available payment-plan choices",
+  },
+  rules: {
+    title: "Four rules",
+    intro: "Before you process a PayJustNow sale, keep these four rules in mind.",
+    items: [
+      "Add all other tenders first. PayJustNow comes last.",
+      "The customer approves the payment in the app.",
+      "You can cancel before approval. After approval, process a return or a new sale.",
+      "Employees may use PayJustNow with their staff discount.",
     ],
   },
-  basics: {
-    id: "payjustnow-basics",
-    eyebrow: "",
-    title: "PayJustNow Basics",
-    intro:
-      "PayJustNow is a South African Buy Now, Pay Later payment solution. It allows a customer to take their purchase home on the same day and split the cost into three equal, interest free instalments, as long as each instalment is paid on time.",
-    tip:
-      "TIP: Always mention that the plan is interest free only if instalments are paid on time.",
-    question: {
+  exclusions: {
+    title: "Exclusions",
+    paragraphs: [
+      "Not everything in the basket can be paid for with PayJustNow. TFG gift cards, airtime, data, 1Voucher and other Value-Added Services are excluded.",
+      "Tell the customer before payment and use another tender for the excluded items.",
+    ],
+    sortItems: [
+      { id: "ordinary-merchandise", label: "Ordinary merchandise", group: "allowed" },
+      { id: "tfg-gift-cards", label: "TFG gift cards", group: "excluded" },
+      { id: "airtime", label: "Airtime", group: "excluded" },
+      { id: "data", label: "Data", group: "excluded" },
+      { id: "1voucher", label: "1Voucher", group: "excluded" },
+      { id: "value-added-services", label: "Other Value-Added Services", group: "excluded" },
+    ],
+  },
+  refundDecision: {
+    title: "Choose the refund journey",
+    question: "Was the original purchase paid only with PayJustNow?",
+    reminder: "If you are unsure, check the original transaction in oneX.",
+    paths: [
+      {
+        label: "YES",
+        body: "Refund the full eligible return amount through PayJustNowStores.",
+      },
+      {
+        label: "NO",
+        body: "Refund only the PayJustNow portion through PayJustNowStores. Return the remaining amount to the other original tender.",
+      },
+    ],
+  },
+  refundChecks: {
+    title: "Three refund checks",
+    intro: "Before you complete the refund:",
+    items: [
+      "PayJustNow money goes back through PayJustNow.",
+      "A split refund is limited to the PayJustNow portion. The system may show the limit in cents.",
+      "Check the return reason and quantity before you tap Apply.",
+    ],
+  },
+  knowledgeChecks: [
+    {
+      id: "sale-change-check",
       question:
-        "A customer wants to buy a jacket worth R1200 today using PayJustNow. How much would they need to pay today to take the jacket home?",
+        "A customer is paying R200 with a gift card and wants to use PayJustNow for the balance. After scanning the QR code, but before approving the payment, the customer asks to add another item. What is the best action?",
       options: [
-        "R400 (a third of the purchase price)",
-        "R1200 (the full amount)",
-        "Nothing today, only once the item is delivered",
+        "Ask the customer to approve the current amount, then add the item to the same transaction.",
+        "Cancel the PayJustNow tender, add the item, apply the gift card again and then select PayJustNow for the new balance.",
+        "Add the item while the approval is open and keep the original PayJustNow amount.",
+        "Complete the sale, then refund the gift card so the extra item can be added.",
+      ],
+      correctIndex: 1,
+      feedback:
+        "The customer has not approved the payment yet, so the PayJustNow tender can still be cancelled. Rebuild the sale so the gift card is applied first and PayJustNow covers the correct remaining balance.",
+    },
+    {
+      id: "exclusions-check",
+      question:
+        "A customer wants to buy a jacket, airtime and a TFG gift card. The customer also wants to pay part by debit card and use PayJustNow for the balance. What is the best action?",
+      options: [
+        "Apply the debit card first, then use PayJustNow for everything left in the basket.",
+        "Explain that the airtime and gift card need another tender, apply the debit-card payment, then use PayJustNow last for the eligible merchandise.",
+        "Use PayJustNow for the jacket and gift card, then use the debit card for the airtime.",
+        "Process the jacket separately on PayJustNow before dealing with the other tenders.",
+      ],
+      correctIndex: 1,
+      feedback:
+        "The excluded products need another tender. For eligible merchandise, apply the debit-card payment first and PayJustNow last.",
+    },
+    {
+      id: "split-refund-check",
+      question:
+        "A customer paid part of the original purchase by card and part through PayJustNow. During the return, the PayJustNow refund limit shown on screen is lower than the total refund amount. What should you do?",
+      options: [
+        "Refund the full amount through PayJustNow because PayJustNow was used in the original sale.",
+        "Refund only up to the PayJustNow limit through PayJustNow, then return the remaining amount to the other original tender.",
+        "Refund the full amount to the card because the PayJustNow limit is too low.",
+        "Change the return reason to increase the PayJustNow limit.",
+      ],
+      correctIndex: 1,
+      feedback:
+        "In a split-tender return, PayJustNow can only refund the PayJustNow portion. The remaining amount goes back through the other original tender.",
+    },
+    {
+      id: "amount-not-allowed-check",
+      question:
+        "You selected PayJustNowStores, but the refund returns “Amount not allowed.” What should you check first?",
+      options: [
+        "Check whether the amount entered is higher than the PayJustNow limit shown on screen.",
+        "Change the refund to cash so the customer does not have to wait.",
+        "Refund the full original transaction and correct the difference later.",
+        "Select a different return reason and try again.",
       ],
       correctIndex: 0,
-      optionFeedback: [
-        "That's correct. PayJustNow splits the purchase into three equal payments, so the customer pays a third today and takes the jacket home immediately.",
-        "Not quite. With PayJustNow, the customer doesn't need to pay the full amount upfront, just the first of three instalments.",
-        "Not quite. PayJustNow requires the first instalment to be paid at the time of purchase, not at a later date",
-      ],
-    } as ScenarioQuestion,
-  },
-  paymentPlans: {
-    id: "payment-plans",
-    eyebrow: "",
-    title: "Payment Structure & PayStretch",
+      feedback:
+        "First compare the amount entered with the PayJustNow limit. The limit may be shown in cents. If the tender and amount are correct but the refund still fails, log a call on Synergy or contact Tech Support on 021 937 4499.",
+    },
+  ] as ScenarioQuestion[],
+  customerQuestions: {
+    title: "Customer Questions",
     intro:
-      "Now that you know what PayJustNow is, the next question a customer will ask is almost always about the money. Let's break that down.",
-    question: {
-      question:
-        "A customer buys a jacket on the 15th of January using the three month plan. When is the final instalment due?",
-      options: [
-        "15th of February",
-        "13th of January",
-        "15th of March",
-      ],
-      correctIndex: 2,
-      optionFeedback: [
-        "Not quite. The final instalment is due two months after the purchase date, on the same day of the month.",
-        "Not quite. The final instalment would not be due in January. It is due two months after the purchase date.",
-        "Correct. The final instalment is due on the same day of the month two months later, so it would be due on the 15th of March.",
-      ],
-    } as ScenarioQuestion,
-    cards: [
+      "Customers may ask for help with PayJustNow questions that do not come up in every transaction. You do not need to memorise every answer. Use this section when a customer needs help, or download the PayJustNow Customer Questions Guide for later.",
+    instruction: "Select a question to view the answer.",
+    items: [
       {
-        title: "The three month plan",
-        body: [
-          "The three month plan splits any purchase into three equal instalments.",
-          "For simplicity, and to match how the PayJustNow app itself displays due dates to a customer. This way treats each instalment as due on the same date, one month and two months after the date of purchase.",
-        ],
+        question: "I am not getting a QR code.",
+        answer:
+          "Check that the mobile number on the PayJustNow account is correct. The customer can update it under Account Details on the customer portal.",
       },
       {
-        title: "PayStretch",
-        body: [
-          "For bigger purchases, PayStretch spreads the cost over twelve months instead, with a small, transparent interest rate shown clearly before the customer confirms. There are no hidden fees on either plan.",
-        ],
+        question: "My OTP has not arrived.",
+        answer:
+          "Ask the customer to select Resend Code. If it still does not arrive, restart the phone and try again, or contact the mobile network provider. If the problem continues, use the PayJustNow Customer Support form.",
       },
-    ] as SectionCard[],
-    exampleTitle: "Let's take a look at an example",
-    exampleBody: [
-      "A customer buys an item on the first of March. Using the calculation above, the three instalments fall on the first of March, the first of April, and the first of May.",
-      "Notice that the day of the month stays the same each time. Only the month changes. This is the pattern to apply whenever a customer asks when their payments are due.",
+      {
+        question: "How can I use money in my PayJustNow wallet?",
+        answer:
+          "Wallet funds can be used for a new purchase, an early payment on an existing order, or a withdrawal to a South African bank account. Withdrawals made before 16:00 are processed by overnight EFT and reflect the next business day.",
+      },
+      {
+        question: "Why has my saved card disappeared?",
+        answer:
+          "The bank may have blocked PayJustNow from using the card after a failed debit attempt. Check that the card is active, enabled for online purchases and has enough funds. If the problem continues, the customer can use instant EFT or another card.",
+      },
+      {
+        question: "How can I pay early or settle my balance?",
+        answer:
+          "In the PayJustNow customer portal, select View Order, select Make Payment, choose the next instalment or full outstanding balance, then select Make Payment again to confirm.",
+      },
+      {
+        question: "How can I change a lost, expired or declined card?",
+        answer:
+          "In the customer portal, open View Order and select Make Payment. Choose the amount, select Add New Card Details, enter the new card details and select Pay Now.",
+      },
+      {
+        question: "What do I need for my first PayJustNow order?",
+        answer:
+          "The customer provides a name, contact details and South African ID number. PayJustNow completes a credit and ID check. Once approved, the customer can use an accepted card.",
+      },
+      {
+        question: "Where can I check the payment-plan details?",
+        answer: "Use the first PayJustNow course for the approved payment-plan explanation.",
+      },
+    ] as CustomerQuestion[],
+  },
+  complete: {
+    title: "Well done",
+    paragraphs: [
+      "You can now apply the PayJustNow rules on oneX and choose the correct refund action.",
+      "Remember: other tenders first, PayJustNow last. Check for excluded products. During a refund, check the original transaction, the PayJustNow limit, the return reason and the quantity.",
+      "Need help later? Return to Customer Questions or download the PayJustNow Customer Questions Guide.",
     ],
-    tip:
-      "Mention PayStretch whenever a customer is buying a big basket item, such as furniture or electronics, and always point out the interest rate before the customer confirms. This will help build the trust of the customer.",
-    video: {
-      title: "Watch the video to learn more",
-      embedUrl: "https://www.youtube.com/embed/8ka1HemFuaQ?start=38",
-    } as VideoResource,
   },
-  howItWorks: {
-    id: "how-it-works",
-    eyebrow: "",
-    transition:
-      "You can now explain what PayJustNow is. Next: how does a customer actually complete the purchase, step by step?",
-    title: "How It Works",
-    requirement:
-      "Firstly, the customer is required to sign up using their South African ID, mobile number, and a valid Visa or MasterCard debit/credit card.",
-    videoIntro: "Watch the video to learn more.",
-    processCards: [
-      {
-        title: "Online",
-        body:
-          "Online: the customer finds a store online, adds items to their cart and chooses PayJustNow at checkout, then confirms the transaction in the app and pays the first instalment.",
-      },
-      {
-        title: "In store",
-        body:
-          "In store: the customer confirms PayJustNow is available and shops as usual, lets you know they will be using PayJustNow, scans the transaction QR code in the app, then confirms and pays the first instalment.",
-      },
-    ] as ProcessCard[],
-    tip:
-      "If a customer seems unsure which option applies to them, ask whether they are shopping online or in store first. The steps are similar, but the starting point is different.",
-    video: {
-      title: "Watch the video to learn more.",
-      embedUrl: "https://www.youtube.com/embed/fHDb1xdEW3g?start=92",
-    } as VideoResource,
-  },
-  keyConsiderations: {
-    id: "key-considerations",
-    eyebrow: "",
-    title: "Key Considerations",
-    statements: [
-      "A customer needs enough funds on their card to cover the first instalment at the time of purchase.",
-      "Late payment fees may apply if a scheduled instalment is missed.",
-      "A quick soft credit check is performed to approve the purchase. This does not affect the customer's credit score, and approval is often almost instant.",
-    ],
-    tip:
-      "If a customer worries about their credit score, reassure them clearly that the check is a soft check only. Being specific here, rather than vague, will give the customer reassurance.",
-    question: {
-      question:
-        "A customer is worried this will affect my credit score. Which response is both accurate and reassuring?",
-      options: [
-        "“It might affect it a little, but it is usually fine.”",
-        "“Do not worry, there is no check done at all.”",
-        "“There is a quick soft check, which will not affect your credit score.”",
-      ],
-      correctIndex: 2,
-      optionFeedback: [
-        "Not quite. This is vague and would likely make a worried customer more uncertain, not less.",
-        "Not quite. This overclaims. A soft check is performed, it just does not affect the credit score.",
-        "Correct. This is accurate and specific, which is what makes it genuinely reassuring.",
-      ],
-    } as ScenarioQuestion,
-  },
-  wrapUp: {
-    id: "wrap-up",
-    eyebrow: "",
-    title: "Well Done",
-    intro: "Well done on completing this course!",
-    body: [
-      "Every question in this course reflects something a customer might ask on the shop floor on any given day. Knowing the answers well enough to respond without hesitating is exactly what builds a customer's confidence in the purchase!",
-    ],
-    imageSrc: "/images/payjustnow/payjustnow-wrap-up.png",
-    imageAlt: "Wrap-up checklist surrounded by pink bubbles",
-  },
-  footer: {
-    buttonLabel: "Return to People Connect",
-    // TODO: Replace with the final People Connect return URL.
-    peopleConnectUrl: "#",
+  guide: {
+    href: "./downloads/payjustnow-customer-questions-guide.pdf",
+    label: "Download Guide",
   },
 };

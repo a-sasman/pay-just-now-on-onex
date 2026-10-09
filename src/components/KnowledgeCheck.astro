@@ -1,0 +1,86 @@
+---
+interface Props {
+  id: string;
+  number: number;
+  total: number;
+  question: string;
+  options: string[];
+  correctIndex: number;
+  feedback: string;
+}
+
+const { id, number, total, question, options, correctIndex, feedback } = Astro.props as Props;
+---
+
+<section class="knowledge-check reveal" data-scenario-root data-knowledge-check>
+  <div class="knowledge-check-copy">
+    <p class="section-kicker">Knowledge check {number} of {total}</p>
+    <h2>Choose the best answer</h2>
+    <div class="knowledge-question" data-scenario-panel>
+      <p>{question}</p>
+    </div>
+    <div class="knowledge-feedback" id={`${id}-feedback`} data-feedback-panel aria-live="polite" hidden>
+      <strong data-feedback-status></strong>
+      <span>{feedback}</span>
+    </div>
+  </div>
+
+  <div class="knowledge-options" role="group" aria-describedby={`${id}-feedback`}>
+    {options.map((option, index) => (
+      <button
+        type="button"
+        class="knowledge-option"
+        data-scenario-option
+        data-option-index={index}
+        data-correct={index === correctIndex ? "true" : "false"}
+        data-selected="false"
+        data-state="idle"
+        aria-pressed="false"
+      >
+        <span class="knowledge-option-letter">{String.fromCharCode(65 + index)}</span>
+        <span>{option}</span>
+      </button>
+    ))}
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll("[data-knowledge-check]").forEach((root) => {
+      if (root.dataset.initialized === "true") return;
+      root.dataset.initialized = "true";
+
+      const options = Array.from(root.querySelectorAll("[data-scenario-option]"));
+      const feedbackPanel = root.querySelector("[data-feedback-panel]");
+      const feedbackStatus = root.querySelector("[data-feedback-status]");
+
+      const resetResult = () => {
+        options.forEach((option) => {
+          option.dataset.state = "idle";
+        });
+        if (feedbackPanel) feedbackPanel.hidden = true;
+      };
+
+      options.forEach((option) => {
+        option.addEventListener("click", () => {
+          options.forEach((item) => {
+            item.dataset.selected = "false";
+            item.setAttribute("aria-pressed", "false");
+          });
+          option.dataset.selected = "true";
+          option.setAttribute("aria-pressed", "true");
+          resetResult();
+          const isCorrect = option.dataset.correct === "true";
+          option.dataset.state = isCorrect ? "correct" : "incorrect";
+          if (feedbackPanel) {
+            feedbackPanel.hidden = false;
+            feedbackPanel.dataset.status = isCorrect ? "correct" : "incorrect";
+          }
+          if (feedbackStatus) {
+            feedbackStatus.textContent = isCorrect ? "Correct. " : "Not quite. ";
+          }
+        });
+      });
+    });
+  })();
+</script>

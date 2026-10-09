@@ -1,5 +1,5 @@
 {
-  "name": "brabantia-quick-course",
+  "name": "payjustnow-on-onex-course",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "pdf": "node scripts/generate-pdf.mjs"
+    "pdf": "node scripts/generate-pdf.mjs",
+    "verify:scorm": "node scripts/verify-scorm-package.mjs dist"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
