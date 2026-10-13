@@ -33,7 +33,7 @@ export const courseData = {
     { id: "complete", label: "Complete" },
   ] as NavSection[],
   welcome: {
-    title: "PayJustNow on oneX",
+    title: "PayJustNow on OneX",
     intro:
       "You already know how PayJustNow works and how to explain the payment options to a customer. Now let’s look at what happens at the Point of Sale, where the order of each step matters.",
     outcomesIntro: "By the end of this course, you will be able to:",
@@ -44,7 +44,7 @@ export const courseData = {
       "Respond when a refund does not process",
     ],
     imageSrc: "./images/payjustnow/onex-hero.png",
-    imageAlt: "oneX shopping app displayed on a phone among pink abstract shapes",
+    imageAlt: "OneX shopping app displayed on a phone among pink abstract shapes",
   },
   saleJourney: {
     title: "The Sale Journey",
@@ -84,7 +84,7 @@ export const courseData = {
   refundDecision: {
     title: "Choose the refund journey",
     question: "Was the original purchase paid only with PayJustNow?",
-    reminder: "If you are unsure, check the original transaction in oneX.",
+    reminder: "If you are unsure, check the original transaction in OneX.",
     paths: [
       {
         label: "YES",
@@ -213,9 +213,8 @@ export const courseData = {
   complete: {
     title: "Well done",
     paragraphs: [
-      "You can now apply the PayJustNow rules on oneX and choose the correct refund action.",
+      "You can now apply the PayJustNow rules on OneX and choose the correct refund action.",
       "Remember: other tenders first, PayJustNow last. Check for excluded products. During a refund, check the original transaction, the PayJustNow limit, the return reason and the quantity.",
-      "Need help later? Return to Customer Questions or download the PayJustNow Customer Questions Guide.",
     ],
   },
   guide: {

@@ -3,7 +3,6 @@ import CourseNav from "../components/CourseNav.astro";
 import KnowledgeCheck from "../components/KnowledgeCheck.astro";
 import ProductSort from "../components/ProductSort.astro";
 import ScormRuntime from "../components/ScormRuntime.astro";
-import ZoomImage from "../components/ZoomImage.astro";
 import { courseData } from "../data/payjustnow-course";
 import CourseLayout from "../layouts/CourseLayout.astro";
 
@@ -56,19 +55,12 @@ const checks = courseData.knowledgeChecks;
           {courseData.saleJourney.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
         </div>
 
-        <div class="journey-shell reveal">
-          <div class="journey-copy">
-            <h3>PayJustNow checkout</h3>
-            <p>
-              Open the supplied screen for a larger view. The remaining oneX POS journey screens
-              are still required to show the complete ordered process without fabricating steps.
-            </p>
-          </div>
-          <ZoomImage
-            id="payment-plan-zoom"
+        <div class="journey-image-crop reveal">
+          <img
+            class="journey-image"
             src={courseData.saleJourney.screenshotSrc}
             alt={courseData.saleJourney.screenshotAlt}
-            caption=""
+            loading="lazy"
           />
         </div>
       </div>
@@ -117,8 +109,6 @@ const checks = courseData.knowledgeChecks;
           />
         </div>
 
-        <ProductSort items={courseData.exclusions.sortItems} />
-
         <KnowledgeCheck
           id={checks[1].id}
           number={2}
@@ -128,6 +118,8 @@ const checks = courseData.knowledgeChecks;
           correctIndex={checks[1].correctIndex}
           feedback={checks[1].feedback}
         />
+
+        <ProductSort items={courseData.exclusions.sortItems} />
       </div>
     </section>
 

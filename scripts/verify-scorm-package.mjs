@@ -89,7 +89,7 @@ try {
     ["commit", ""],
   ]);
   assert.equal(await page.title(), "Content");
-  assert.equal(await page.locator("h1").first().textContent(), "PayJustNow on oneX");
+  assert.equal(await page.locator("h1").first().textContent(), "PayJustNow on OneX");
   assert.equal(await page.locator(".course-footer-text").textContent(), "Return to People Connect to continue");
   assert.equal(await page.locator(".course-footer-text").evaluate((node) => node.tagName), "P");
   assert.equal(await page.locator('a[href="#customer-questions"]').count(), 1);

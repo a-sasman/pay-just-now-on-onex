@@ -10,6 +10,9 @@ interface Props {
 }
 
 const { id, number, total, question, options, correctIndex, feedback } = Astro.props as Props;
+const questionParts = question.match(/^(.*)\s+(What [^?]+\?)$/i);
+const questionContext = questionParts?.[1];
+const questionPrompt = questionParts?.[2] ?? question;
 ---
 
 <section class="knowledge-check reveal" data-scenario-root data-knowledge-check>
@@ -17,7 +20,10 @@ const { id, number, total, question, options, correctIndex, feedback } = Astro.p
     <p class="section-kicker">Knowledge check {number} of {total}</p>
     <h2>Choose the best answer</h2>
     <div class="knowledge-question" data-scenario-panel>
-      <p>{question}</p>
+      <p>
+        {questionContext && <span>{questionContext}</span>}
+        <span class="knowledge-question-prompt">{questionPrompt}</span>
+      </p>
     </div>
     <div class="knowledge-feedback" id={`${id}-feedback`} data-feedback-panel aria-live="polite" hidden>
       <strong data-feedback-status></strong>

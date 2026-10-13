@@ -1,6 +1,6 @@
-# PayJustNow on oneX
+# PayJustNow on OneX
 
-Astro micro-course implementing the supplied PayJustNow on oneX storyboard and
+Astro micro-course implementing the supplied PayJustNow on OneX storyboard and
 visual-board direction.
 
 ## Implemented
@@ -21,16 +21,16 @@ visual-board direction.
 ## Known source limitation
 
 The supplied files contain one PayJustNow checkout/payment-plan screenshot, not
-the complete ordered oneX POS screenshot sequence requested by the storyboard.
+the complete ordered OneX POS screenshot sequence requested by the storyboard.
 The course does not fabricate the missing interface or process steps. The
 following screenshots are still required to complete the Sale Journey:
 
-1. Customer loaded in oneX.
+1. Customer loaded in OneX.
 2. Other tenders applied before PayJustNow, where relevant.
 3. PayJustNow selected for the remaining balance.
 4. QR code displayed at POS and scanned by the customer.
 5. Customer approval/confirmation in the app.
-6. Final successful transaction confirmation in oneX.
+6. Final successful transaction confirmation in OneX.
 
 The approved course is packaged with this limitation documented. The missing
 screenshots do not block the current Oracle / People Connect SCORM package.
