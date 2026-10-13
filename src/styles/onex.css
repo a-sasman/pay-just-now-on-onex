@@ -5,10 +5,33 @@
   --onex-grey: #e7e7e7;
   --onex-grey-dark: #29292b;
   --onex-white: #ffffff;
+  --section-space: clamp(4rem, 6vw, 6rem);
+  --section-content-gap: clamp(2.5rem, 4vw, 3.5rem);
 }
 
 .onex-section {
-  padding: clamp(3.5rem, 7vw, 6.5rem) 0;
+  padding: var(--section-space) 0;
+}
+
+.welcome-section,
+.exclusions-section,
+.questions-section {
+  padding-bottom: var(--section-content-gap);
+}
+
+.sale-journey-section,
+.refunds-section,
+.complete-section {
+  padding-top: 0;
+}
+
+.onex-section > .container {
+  display: grid;
+  gap: var(--section-content-gap);
+}
+
+.onex-section > .container > * {
+  margin-block: 0;
 }
 
 .onex-section h1,
@@ -69,10 +92,6 @@
   color: white;
 }
 
-.welcome-section {
-  padding-top: 1rem;
-}
-
 .welcome-panel {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
@@ -104,7 +123,7 @@
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   gap: 2rem;
   align-items: start;
-  padding: clamp(2.2rem, 5vw, 4rem) clamp(1rem, 4vw, 3rem) 0;
+  padding: 0 clamp(1rem, 4vw, 3rem);
 }
 
 .outcomes-list {
@@ -133,10 +152,6 @@
   border-radius: 50%;
   background: var(--onex-lime);
   color: black;
-}
-
-.sale-journey-section {
-  padding-top: 2rem;
 }
 
 .journey-image-crop {
@@ -233,7 +248,6 @@
 
 .four-rule-cards {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-bottom: 4rem;
 }
 
 .three-check-cards {
@@ -298,7 +312,6 @@
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
   gap: clamp(2rem, 4vw, 4rem);
-  margin-top: 3rem;
   padding: clamp(1.5rem, 4vw, 3rem);
   border-radius: 28px;
   background: var(--onex-grey-dark);
@@ -440,7 +453,6 @@
 }
 
 .product-sort {
-  margin-top: 2rem;
   padding: clamp(1.5rem, 4vw, 3rem);
   border-radius: 28px;
   background: #f0f0f0;
@@ -527,7 +539,6 @@
 
 .refund-decision-heading {
   max-width: 960px;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .refund-decision-heading h2 {
@@ -555,7 +566,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
-  margin-bottom: 3rem;
 }
 
 .refund-path-card {
@@ -667,11 +677,9 @@
 .centered-actions {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
 }
 
 .complete-section {
-  padding-top: 1rem;
   color: white;
 }
 
@@ -728,8 +736,9 @@
 }
 
 @media (max-width: 768px) {
-  .onex-section {
-    padding: 3.5rem 0;
+  :root {
+    --section-space: 3.5rem;
+    --section-content-gap: 2.25rem;
   }
 
   .welcome-panel,
